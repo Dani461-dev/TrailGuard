@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><title>TrailGuard</title>
+<style>
+ body{font-family:system-ui,sans-serif;margin:2rem;max-width:1000px}
+ .a{border:1px solid #ccc;border-left:6px solid #888;border-radius:6px;padding:.7rem 1rem;margin:.6rem 0}
+ .t3{border-left-color:#c0392b}.t2{border-left-color:#e67e22}.t1{border-left-color:#7f8c8d}
+ small{color:#555} code{background:#eee;padding:1px 4px;border-radius:3px}
+</style></head><body>
+<h1>TrailGuard</h1>
+<p><small>Deteksi insider-threat yang menjaga privasi &middot; berjalan di IBM LinuxONE</small></p>
+<pre id="m"></pre><div id="list">Memuat…</div>
+<script>
+// TODO(Grup C): percantik dashboard: filter tier, grafik skor harian, tombol "Setujui/Tolak" (human approval).
+fetch('/api/metrics').then(r=>r.json()).then(m=>document.getElementById('m').textContent=JSON.stringify(m,null,1));
+fetch('/api/alerts?limit=30').then(r=>r.json()).then(rows=>{
+  document.getElementById('list').innerHTML = rows.map(a=>
+   `<div class="a t${a.tier}"><b>${a.day}</b> &middot; user <code>${a.user.slice(0,8)}</code> &middot; risiko <b>${a.risk}</b>
+    &middot; tier ${a.tier} (${a.action}) ${a.requires_human_approval?'&#9888; butuh persetujuan':''}<br><small>${a.summary}</small><br><small>penjelasan: <code>${a.explain_method}</code></small></div>`).join('')||'Belum ada alert. Jalankan pipeline dulu.';
+});
+</script></body></html>
