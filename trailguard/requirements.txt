@@ -1,0 +1,9 @@
+# Core dependencies. Dipilih yang "ringan" agar mudah terpasang di LinuxONE (arsitektur s390x).
+# Kalau ada yang gagal dipasang, lapor ke Grup A (Platform) -- jangan diam-diam diganti.
+pandas
+numpy
+scikit-learn
+joblib
+pyyaml
+flask
+pytest
