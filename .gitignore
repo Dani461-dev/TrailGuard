@@ -1,3 +1,4 @@
+HEAD
 
 # Data mentah besar (jangan pernah di-commit) — lihat docs/01_TEAM_ROLES.md §7
 auth.txt/
@@ -9,3 +10,21 @@ data/**/*.csv.gz
 # Cache lokal
 .pytest_cache/
 .ruff_cache/
+.venv/
+__pycache__/
+*.pyc
+.env
+data/raw/*
+data/interim/*
+data/processed/*
+!data/*/.gitkeep
+models/*.joblib
+outputs/*.jsonl
+*.log
+.ipynb_checkpoints/
+node_modules/
+src/trailguard/api/static/
+outputs/*.json
+node_modules/
+src/trailguard/api/static/
+76e49a3 (feat(a-platform-deploy): update gitignore and shap pyarrow check evidence)
