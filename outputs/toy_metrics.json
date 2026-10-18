@@ -1,0 +1,180 @@
+{
+  "description": "gabungan 'weighted': 0.4*p_supervised + sisanya p_anomaly (alpha dipilih di validasi)",
+  "alert_budget_per_day": 5,
+  "n_alerts": 115,
+  "n_malicious_user_days": 21,
+  "true_positive_alerts": 21,
+  "precision_at_budget": 0.1826,
+  "recall_at_budget": 1.0,
+  "insiders_in_test": 3,
+  "insiders_detected": 3,
+  "median_days_to_detection": 0.0,
+  "dataset": "cert",
+  "split": {
+    "train_fraction": 0.65,
+    "cut_day": "2010-03-03",
+    "train_days": 42,
+    "test_days": 23
+  },
+  "model": {
+    "selected_supervised_model": "HistGradientBoostingClassifier",
+    "positive_class_weight": 17.97,
+    "combine_method": "weighted",
+    "ensemble_alpha": 0.4
+  },
+  "tier_thresholds": {
+    "step_up_threshold": 0.6031,
+    "ticket_threshold": 0.6531,
+    "source": "calibrated_on_validation"
+  },
+  "tier_calibration": {
+    "val_f1_at_step_up": 1.0,
+    "val_f1_best_threshold": 1.0,
+    "tier2_floor_p90_normal": 0.2214
+  },
+  "generalization_audit": {
+    "train_rows": 1620,
+    "train_positives": 5,
+    "train_pr_auc": 1.0,
+    "val_rows": 900,
+    "val_positives": 5,
+    "val_pr_auc": 1.0,
+    "test_rows": 1380,
+    "test_positives": 21,
+    "test_pr_auc": 0.8753
+  },
+  "test_evaluation": {
+    "trailguard_hybrid": {
+      "description": "gabungan 'weighted': 0.4*p_supervised + sisanya p_anomaly (alpha dipilih di validasi)",
+      "alert_budget_per_day": 5,
+      "n_alerts": 115,
+      "n_malicious_user_days": 21,
+      "true_positive_alerts": 21,
+      "precision_at_budget": 0.1826,
+      "recall_at_budget": 1.0,
+      "insiders_in_test": 3,
+      "insiders_detected": 3,
+      "median_days_to_detection": 0.0
+    },
+    "supervised_only": {
+      "description": "hanya model supervised -> apa yang hilang tanpa deteksi perilaku baru",
+      "alert_budget_per_day": 5,
+      "n_alerts": 115,
+      "n_malicious_user_days": 21,
+      "true_positive_alerts": 21,
+      "precision_at_budget": 0.1826,
+      "recall_at_budget": 1.0,
+      "insiders_in_test": 3,
+      "insiders_detected": 3,
+      "median_days_to_detection": 0.0
+    },
+    "unsupervised_only": {
+      "description": "hanya Isolation Forest -> apa yang hilang tanpa label",
+      "alert_budget_per_day": 5,
+      "n_alerts": 115,
+      "n_malicious_user_days": 21,
+      "true_positive_alerts": 21,
+      "precision_at_budget": 0.1826,
+      "recall_at_budget": 1.0,
+      "insiders_in_test": 3,
+      "insiders_detected": 3,
+      "median_days_to_detection": 0.0
+    },
+    "zscore_baseline": {
+      "description": "hanya z-score fitur terbesar -> perlu model sama sekali?",
+      "alert_budget_per_day": 5,
+      "n_alerts": 115,
+      "n_malicious_user_days": 21,
+      "true_positive_alerts": 15,
+      "precision_at_budget": 0.1304,
+      "recall_at_budget": 0.7143,
+      "insiders_in_test": 3,
+      "insiders_detected": 3,
+      "median_days_to_detection": 0.0
+    },
+    "random_baseline": {
+      "description": "skor acak -> batas bawah yang jujur",
+      "alert_budget_per_day": 5,
+      "n_alerts": 115,
+      "n_malicious_user_days": 21,
+      "true_positive_alerts": 1,
+      "precision_at_budget": 0.0087,
+      "recall_at_budget": 0.0476,
+      "insiders_in_test": 3,
+      "insiders_detected": 1,
+      "median_days_to_detection": 7.0
+    }
+  },
+  "model_selection": {
+    "val_rows": 900,
+    "val_positives": 5,
+    "val_fraction_of_train": 0.2,
+    "supervised_candidates": [
+      {
+        "method": "sup",
+        "pos_weight_exp": 0.5,
+        "pos_weight": 17.97,
+        "val_pr_auc": 1.0
+      },
+      {
+        "method": "sup",
+        "pos_weight_exp": 0.75,
+        "pos_weight": 50.0,
+        "val_pr_auc": 1.0
+      },
+      {
+        "method": "sup",
+        "pos_weight_exp": 1.0,
+        "pos_weight": 50.0,
+        "val_pr_auc": 1.0
+      }
+    ],
+    "combination_candidates": [
+      {
+        "combine_method": "weighted",
+        "alpha": 0.0,
+        "val_pr_auc": 0.7143
+      },
+      {
+        "combine_method": "weighted",
+        "alpha": 0.4,
+        "val_pr_auc": 1.0
+      },
+      {
+        "combine_method": "weighted",
+        "alpha": 0.6,
+        "val_pr_auc": 1.0
+      },
+      {
+        "combine_method": "weighted",
+        "alpha": 0.8,
+        "val_pr_auc": 1.0
+      },
+      {
+        "combine_method": "weighted",
+        "alpha": 0.95,
+        "val_pr_auc": 1.0
+      },
+      {
+        "combine_method": "weighted",
+        "alpha": 1.0,
+        "val_pr_auc": 1.0
+      },
+      {
+        "combine_method": "max",
+        "alpha": 0.5,
+        "val_pr_auc": 0.7143
+      },
+      {
+        "combine_method": "rank",
+        "alpha": 0.5,
+        "val_pr_auc": 1.0
+      }
+    ],
+    "winner": {
+      "combine_method": "weighted",
+      "alpha": 0.4,
+      "val_pr_auc": 1.0
+    }
+  }
+}

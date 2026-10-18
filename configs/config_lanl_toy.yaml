@@ -1,0 +1,51 @@
+# Konfigurasi UJI CEPAT LANL (data tiruan). Dipakai oleh `make lanl-toy`.
+#
+# Jalur keluaran dipisahkan dari configs/config_lanl.yaml supaya uji jalur tidak menimpa hasil
+# dari subset LANL asli.
+project: trailguard
+dataset: lanl
+
+io:
+  format: csv
+
+explain:
+  method: shap
+  n_samples: 30
+  min_tier: 2
+  max_alerts: 50
+  top_k: 3
+
+paths:
+  raw: data/raw/lanl_toy
+  events: data/interim/lanl_toy_events.csv.gz
+  labels: data/interim/lanl_toy_labels.csv
+  features: data/processed/lanl_toy_features.csv.gz
+  model: models/bundle_lanl_toy.joblib
+  alerts: outputs/lanl_toy_alerts.jsonl
+  metrics: outputs/lanl_toy_metrics.json
+  benchmark: outputs/lanl_toy_benchmark.json
+
+ingest:
+  max_rows_per_file: null
+  chunksize: 2000000
+  hash_length: 16
+
+features:
+  night_hours: [0, 6]
+  baseline_window_days: 14
+  min_baseline_days: 3
+  warmup_days: 3
+
+model:
+  train_fraction: 0.65
+  random_state: 42
+  ensemble_weight_supervised: 0.6
+  isolation_forest:
+    n_estimators: 200
+
+evaluation:
+  alert_budget_per_day: 5
+
+policy:
+  step_up_threshold: 0.60
+  ticket_threshold: 0.85

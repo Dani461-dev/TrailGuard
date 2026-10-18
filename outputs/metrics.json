@@ -1,0 +1,180 @@
+{
+  "description": "hanya model supervised (alpha=1.0 dipilih di validasi; Isolation Forest tidak menambah)",
+  "alert_budget_per_day": 5,
+  "n_alerts": 879,
+  "n_malicious_user_days": 489,
+  "true_positive_alerts": 405,
+  "precision_at_budget": 0.4608,
+  "recall_at_budget": 0.8282,
+  "insiders_in_test": 27,
+  "insiders_detected": 26,
+  "median_days_to_detection": 0.0,
+  "dataset": "cert",
+  "split": {
+    "train_fraction": 0.65,
+    "cut_day": "2010-11-23",
+    "train_days": 325,
+    "test_days": 176
+  },
+  "model": {
+    "selected_supervised_model": "HistGradientBoostingClassifier",
+    "positive_class_weight": 18.08,
+    "combine_method": "weighted",
+    "ensemble_alpha": 1.0
+  },
+  "tier_thresholds": {
+    "step_up_threshold": 0.3592,
+    "ticket_threshold": 0.4092,
+    "source": "calibrated_on_validation"
+  },
+  "tier_calibration": {
+    "val_f1_at_step_up": 0.7754,
+    "val_f1_best_threshold": 0.7754,
+    "tier2_floor_p90_normal": 0.0031
+  },
+  "generalization_audit": {
+    "train_rows": 180578,
+    "train_positives": 551,
+    "train_pr_auc": 0.9933,
+    "val_rows": 43435,
+    "val_positives": 324,
+    "val_pr_auc": 0.9956,
+    "test_rows": 106272,
+    "test_positives": 489,
+    "test_pr_auc": 0.9222
+  },
+  "test_evaluation": {
+    "trailguard_hybrid": {
+      "description": "hanya model supervised (alpha=1.0 dipilih di validasi; Isolation Forest tidak menambah)",
+      "alert_budget_per_day": 5,
+      "n_alerts": 879,
+      "n_malicious_user_days": 489,
+      "true_positive_alerts": 405,
+      "precision_at_budget": 0.4608,
+      "recall_at_budget": 0.8282,
+      "insiders_in_test": 27,
+      "insiders_detected": 26,
+      "median_days_to_detection": 0.0
+    },
+    "supervised_only": {
+      "description": "hanya model supervised -> apa yang hilang tanpa deteksi perilaku baru",
+      "alert_budget_per_day": 5,
+      "n_alerts": 879,
+      "n_malicious_user_days": 489,
+      "true_positive_alerts": 405,
+      "precision_at_budget": 0.4608,
+      "recall_at_budget": 0.8282,
+      "insiders_in_test": 27,
+      "insiders_detected": 26,
+      "median_days_to_detection": 0.0
+    },
+    "unsupervised_only": {
+      "description": "hanya Isolation Forest -> apa yang hilang tanpa label",
+      "alert_budget_per_day": 5,
+      "n_alerts": 879,
+      "n_malicious_user_days": 489,
+      "true_positive_alerts": 8,
+      "precision_at_budget": 0.0091,
+      "recall_at_budget": 0.0164,
+      "insiders_in_test": 27,
+      "insiders_detected": 7,
+      "median_days_to_detection": 1.0
+    },
+    "zscore_baseline": {
+      "description": "hanya z-score fitur terbesar -> perlu model sama sekali?",
+      "alert_budget_per_day": 5,
+      "n_alerts": 879,
+      "n_malicious_user_days": 489,
+      "true_positive_alerts": 11,
+      "precision_at_budget": 0.0125,
+      "recall_at_budget": 0.0225,
+      "insiders_in_test": 27,
+      "insiders_detected": 11,
+      "median_days_to_detection": 0.0
+    },
+    "random_baseline": {
+      "description": "skor acak -> batas bawah yang jujur",
+      "alert_budget_per_day": 5,
+      "n_alerts": 879,
+      "n_malicious_user_days": 489,
+      "true_positive_alerts": 4,
+      "precision_at_budget": 0.0046,
+      "recall_at_budget": 0.0082,
+      "insiders_in_test": 27,
+      "insiders_detected": 4,
+      "median_days_to_detection": 27.0
+    }
+  },
+  "model_selection": {
+    "val_rows": 43435,
+    "val_positives": 324,
+    "val_fraction_of_train": 0.2,
+    "supervised_candidates": [
+      {
+        "method": "sup",
+        "pos_weight_exp": 0.5,
+        "pos_weight": 18.08,
+        "val_pr_auc": 0.812
+      },
+      {
+        "method": "sup",
+        "pos_weight_exp": 0.75,
+        "pos_weight": 50.0,
+        "val_pr_auc": 0.8064
+      },
+      {
+        "method": "sup",
+        "pos_weight_exp": 1.0,
+        "pos_weight": 50.0,
+        "val_pr_auc": 0.8064
+      }
+    ],
+    "combination_candidates": [
+      {
+        "combine_method": "weighted",
+        "alpha": 0.0,
+        "val_pr_auc": 0.0283
+      },
+      {
+        "combine_method": "weighted",
+        "alpha": 0.4,
+        "val_pr_auc": 0.4201
+      },
+      {
+        "combine_method": "weighted",
+        "alpha": 0.6,
+        "val_pr_auc": 0.6218
+      },
+      {
+        "combine_method": "weighted",
+        "alpha": 0.8,
+        "val_pr_auc": 0.6858
+      },
+      {
+        "combine_method": "weighted",
+        "alpha": 0.95,
+        "val_pr_auc": 0.7346
+      },
+      {
+        "combine_method": "weighted",
+        "alpha": 1.0,
+        "val_pr_auc": 0.812
+      },
+      {
+        "combine_method": "max",
+        "alpha": 0.5,
+        "val_pr_auc": 0.4255
+      },
+      {
+        "combine_method": "rank",
+        "alpha": 0.5,
+        "val_pr_auc": 0.1354
+      }
+    ],
+    "winner": {
+      "combine_method": "weighted",
+      "alpha": 1.0,
+      "val_pr_auc": 0.812
+    }
+  }
+}

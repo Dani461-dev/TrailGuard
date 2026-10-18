@@ -1,0 +1,9 @@
+# OPSIONAL / BERISIKO di s390x. Pasang SETELAH pipeline inti jalan; uji dengan `make shap-check`.
+# Beri batas waktu ±45 menit per paket. Catat OK/GAGAL + pesan error di docs/05_DECISION_LOG.md
+pyarrow            # Parquet untuk data besar (LANL). Jika gagal: tetap CSV.gz
+shap               # menarik numba + llvmlite -> kemungkinan compile dari source, butuh paket LLVM dev
+                   #   Ubuntu: sudo apt install llvm-dev  |  RHEL: sudo dnf install llvm-devel
+                   #   Jika gagal: pipeline otomatis memakai Shapley implementasi sendiri (lihat models/explain.py)
+lightgbm           # alternatif gradient boosting
+xgboost            # alternatif gradient boosting
+llama-cpp-python   # LLM kecil di CPU untuk ringkasan kasus (stretch goal)

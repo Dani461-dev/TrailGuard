@@ -1,0 +1,52 @@
+# Konfigurasi UJI CEPAT (data tiruan CERT). Dipakai oleh `make toy`.
+#
+# PENTING: jalur keluaran sengaja dipisahkan dari configs/config.yaml supaya jalur cepat ini
+# TIDAK PERNAH menimpa hasil/bukti dari data asli. Toy sengaja mudah (recall ~1.0) -- jangan
+# pernah melaporkan angkanya sebagai hasil.
+project: trailguard
+dataset: cert
+
+io:
+  format: csv
+
+explain:
+  method: shap
+  n_samples: 30                # toy = uji jalur, bukan hasil
+  min_tier: 2
+  max_alerts: 50
+  top_k: 3
+
+paths:
+  raw: data/raw/toy
+  events: data/interim/toy_events.csv.gz
+  labels: data/interim/toy_labels.csv
+  features: data/processed/toy_features.csv.gz
+  model: models/bundle_toy.joblib
+  alerts: outputs/toy_alerts.jsonl
+  metrics: outputs/toy_metrics.json
+  benchmark: outputs/toy_benchmark.json
+
+ingest:
+  company_domain: dtaa.com
+  max_rows_per_file: null
+  hash_length: 16
+
+features:
+  work_hours: [8, 18]
+  baseline_window_days: 14
+  min_baseline_days: 3
+  warmup_days: 3
+
+model:
+  train_fraction: 0.65
+  random_state: 42
+  ensemble_weight_supervised: 0.6
+  isolation_forest:
+    n_estimators: 200
+
+evaluation:
+  alert_budget_per_day: 5
+
+policy:
+  step_up_threshold: 0.60
+  ticket_threshold: 0.85

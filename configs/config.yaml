@@ -1,0 +1,47 @@
+project: trailguard
+dataset: cert                  # cert | lanl  (LANL: pakai configs/config_lanl.yaml)
+
+io:
+  format: csv                  # csv | parquet  (parquet butuh pyarrow; bila gagal -> otomatis csv + peringatan)
+
+explain:
+  method: shap                 # shap | shapley | deviation. 'shap' otomatis turun ke 'shapley' bila library tak jalan
+  n_samples: 60                # sampel permutasi Shapley per alert
+  min_tier: 2                  # hanya alert tier >= ini yang dijelaskan dgn SHAP/Shapley (hemat waktu)
+  max_alerts: 300
+  top_k: 3
+
+paths:
+  raw: data/raw/cert_r4.2      # data ASLI CERT r4.2 (lihat data/README.md). Uji cepat: configs/config_toy.yaml
+  events: data/interim/events.csv.gz
+  labels: data/interim/labels.csv
+  features: data/processed/features.csv.gz
+  model: models/bundle.joblib
+  alerts: outputs/alerts.jsonl
+  metrics: outputs/metrics.json
+  benchmark: outputs/benchmark.json
+
+ingest:
+  company_domain: dtaa.com     # email ke domain lain dianggap eksternal
+  max_rows_per_file: null      # mis. 2000000 untuk membatasi file besar (http.csv)
+  hash_length: 16              # kunci HMAC diambil dari env TRAILGUARD_HMAC_KEY (lihat .env.example)
+
+features:
+  work_hours: [8, 18]          # di luar rentang ini = off-hours
+  baseline_window_days: 14
+  min_baseline_days: 3
+  warmup_days: 3               # hari-hari pertama user: fitur "baru" dinolkan (cold start)
+
+model:
+  train_fraction: 0.65         # split TEMPORAL: hari-hari awal = train, akhir = test
+  random_state: 42
+  ensemble_weight_supervised: 0.6
+  isolation_forest:
+    n_estimators: 200
+
+evaluation:
+  alert_budget_per_day: 5      # jumlah alert maksimum per hari yang realistis untuk analis
+
+policy:
+  step_up_threshold: 0.60      # tier 2: verifikasi tambahan
+  ticket_threshold: 0.85       # tier 3: tiket analis (wajib persetujuan manusia)

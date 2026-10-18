@@ -1,0 +1,165 @@
+{
+  "dataset": "LANL",
+  "selected_supervised_model": "HistGB (w=107x)",
+  "positive_class_weight": 106.97,
+  "ensemble_alpha": 0.85,
+  "tier_thresholds": {
+    "tier_1_log_only": 0.2069,
+    "tier_2_step_up": 0.406,
+    "tier_3_analyst_ticket": 0.9199
+  },
+  "generalization_audit": {
+    "train_pr_auc": 0.5008,
+    "val_pr_auc": 0.0864,
+    "test_pr_auc": 0.1187,
+    "val_macro_f1": 0.5369,
+    "test_macro_f1": 0.5038
+  },
+  "test_evaluation": {
+    "trailguard_hybrid": {
+      "pr_auc": 0.1187,
+      "roc_auc": 0.9541,
+      "total_positive_events": 12,
+      "total_malicious_users": 7,
+      "budgets": {
+        "top_5": {
+          "precision_at_k": 0.0667,
+          "recall_at_k": 0.0833,
+          "caught_malicious_users": 1,
+          "user_recall_at_k": 0.1429,
+          "mean_time_to_detection_days": 0.0
+        },
+        "top_10": {
+          "precision_at_k": 0.0667,
+          "recall_at_k": 0.1667,
+          "caught_malicious_users": 2,
+          "user_recall_at_k": 0.2857,
+          "mean_time_to_detection_days": 0.5
+        },
+        "top_25": {
+          "precision_at_k": 0.0267,
+          "recall_at_k": 0.1667,
+          "caught_malicious_users": 2,
+          "user_recall_at_k": 0.2857,
+          "mean_time_to_detection_days": 0.0
+        }
+      }
+    },
+    "supervised_only": {
+      "pr_auc": 0.1071,
+      "roc_auc": 0.9496,
+      "total_positive_events": 12,
+      "total_malicious_users": 7,
+      "budgets": {
+        "top_5": {
+          "precision_at_k": 0.0667,
+          "recall_at_k": 0.0833,
+          "caught_malicious_users": 2,
+          "user_recall_at_k": 0.2857,
+          "mean_time_to_detection_days": 0.5
+        },
+        "top_10": {
+          "precision_at_k": 0.0333,
+          "recall_at_k": 0.0833,
+          "caught_malicious_users": 2,
+          "user_recall_at_k": 0.2857,
+          "mean_time_to_detection_days": 0.5
+        },
+        "top_25": {
+          "precision_at_k": 0.0267,
+          "recall_at_k": 0.1667,
+          "caught_malicious_users": 2,
+          "user_recall_at_k": 0.2857,
+          "mean_time_to_detection_days": 0.0
+        }
+      }
+    },
+    "unsupervised_only": {
+      "pr_auc": 0.0151,
+      "roc_auc": 0.849,
+      "total_positive_events": 12,
+      "total_malicious_users": 7,
+      "budgets": {
+        "top_5": {
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "caught_malicious_users": 0,
+          "user_recall_at_k": 0.0,
+          "mean_time_to_detection_days": null
+        },
+        "top_10": {
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "caught_malicious_users": 0,
+          "user_recall_at_k": 0.0,
+          "mean_time_to_detection_days": null
+        },
+        "top_25": {
+          "precision_at_k": 0.0267,
+          "recall_at_k": 0.1667,
+          "caught_malicious_users": 1,
+          "user_recall_at_k": 0.1429,
+          "mean_time_to_detection_days": 0.0
+        }
+      }
+    },
+    "zscore_baseline": {
+      "pr_auc": 0.0221,
+      "roc_auc": 0.777,
+      "total_positive_events": 12,
+      "total_malicious_users": 7,
+      "budgets": {
+        "top_5": {
+          "precision_at_k": 0.0667,
+          "recall_at_k": 0.0833,
+          "caught_malicious_users": 1,
+          "user_recall_at_k": 0.1429,
+          "mean_time_to_detection_days": 2.0
+        },
+        "top_10": {
+          "precision_at_k": 0.0333,
+          "recall_at_k": 0.0833,
+          "caught_malicious_users": 1,
+          "user_recall_at_k": 0.1429,
+          "mean_time_to_detection_days": 2.0
+        },
+        "top_25": {
+          "precision_at_k": 0.0533,
+          "recall_at_k": 0.3333,
+          "caught_malicious_users": 2,
+          "user_recall_at_k": 0.2857,
+          "mean_time_to_detection_days": 0.0
+        }
+      }
+    },
+    "random_baseline": {
+      "pr_auc": 0.0027,
+      "roc_auc": 0.5044,
+      "total_positive_events": 12,
+      "total_malicious_users": 7,
+      "budgets": {
+        "top_5": {
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "caught_malicious_users": 0,
+          "user_recall_at_k": 0.0,
+          "mean_time_to_detection_days": null
+        },
+        "top_10": {
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "caught_malicious_users": 0,
+          "user_recall_at_k": 0.0,
+          "mean_time_to_detection_days": null
+        },
+        "top_25": {
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "caught_malicious_users": 1,
+          "user_recall_at_k": 0.1429,
+          "mean_time_to_detection_days": 0.0
+        }
+      }
+    }
+  }
+}
