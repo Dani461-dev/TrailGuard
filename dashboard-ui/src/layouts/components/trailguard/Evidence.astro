@@ -1,0 +1,62 @@
+---
+import { evidenceItems } from "@/data/trailguard";
+import Icon from "./Icon.astro";
+import SectionHeading from "./SectionHeading.astro";
+---
+
+<section id="bukti" class="section scroll-mt-24">
+  <div class="container">
+    <SectionHeading
+      badge="LinuxONE evidence"
+      title='Judges evaluate through <strong>screenshots</strong>'
+      subtitle="All evidence is time/date & hostname stamped and stored in evidence/. Without evidence, a feature is not written as a claim."
+    />
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      {
+        evidenceItems.map((e) => (
+          <div class="flex items-start gap-3 rounded-2xl border border-border bg-light p-5">
+            <span class="font-secondary text-h4 font-bold text-primary/60">
+              {e.id}
+            </span>
+            <p class="mt-1 text-xs leading-5 text-text">{e.title}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="mt-10 grid gap-6 lg:grid-cols-2">
+      <div class="rounded-2xl border border-border bg-light/60 p-7">
+        <div class="mb-3 flex items-center gap-3">
+          <Icon name="terminal" class="size-5 text-primary" />
+          <h3 class="font-secondary text-h6 font-bold text-white">
+            make evidence
+          </h3>
+        </div>
+        <p class="text-sm leading-6 text-text">
+          Collects system info (uname, lscpu, free, df, ML package versions,
+          containers, latest metrics & benchmarks) into{" "}
+          <code class="font-mono text-xs text-text-light">evidence/system_info.txt</code>{" "}
+          — then screenshot the screen.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-primary/30 bg-primary/5 p-7">
+        <div class="mb-3 flex items-center gap-3">
+          <Icon name="shield" class="size-5 text-primary" />
+          <h3 class="font-secondary text-h6 font-bold text-white">
+            Evidence &gt; claims
+          </h3>
+        </div>
+        <p class="text-sm leading-6 text-text">
+          A feature that cannot be shown in a screenshot or video is not
+          written as a claim. SHAP only if{" "}
+          <code class="font-mono text-xs text-primary">
+            evidence/shap_pyarrow_check.txt
+          </code>{" "}
+          shows <code class="font-mono text-xs">[OK] shap</code>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

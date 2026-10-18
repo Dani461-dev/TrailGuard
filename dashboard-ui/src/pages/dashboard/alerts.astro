@@ -1,0 +1,13 @@
+---
+import AppLayout from "@/layouts/AppLayout.astro";
+import AlertsTable from "@/layouts/dashboard/AlertsTable";
+---
+
+<AppLayout
+  title="Alerts · TrailGuard Dashboard"
+  description="TrailGuard insider-threat alert list with tier, explain_method, approval status filters, and per-user explanation details."
+  pageTitle="Alerts"
+  pageSubtitle="Alert list, filters, and analyst decisions"
+>
+  <AlertsTable client:load />
+</AppLayout>

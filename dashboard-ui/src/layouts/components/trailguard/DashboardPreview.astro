@@ -1,0 +1,154 @@
+---
+import { sampleAlerts } from "@/data/trailguard";
+import Icon from "./Icon.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+const tierStyle: Record<number, { bar: string; badge: string }> = {
+  1: { bar: "border-l-zinc-500", badge: "bg-zinc-500/15 text-zinc-300" },
+  2: { bar: "border-l-amber-400", badge: "bg-amber-400/15 text-amber-300" },
+  3: { bar: "border-l-secondary", badge: "bg-secondary/15 text-secondary" },
+};
+
+const endpoints = [
+  { method: "GET", path: "/health", desc: "health check" },
+  { method: "GET", path: "/api/alerts?limit=N", desc: "top alerts" },
+  { method: "GET", path: "/api/metrics", desc: "metrics.json contents" },
+  { method: "POST", path: "/api/score", desc: "features → risk + tier" },
+];
+---
+
+<section id="dashboard" class="section scroll-mt-24">
+  <div class="container">
+    <SectionHeading
+      badge="Dashboard"
+      title='Alerts + reasons + tiers, <strong>on a single screen</strong>'
+      subtitle="Static preview. The real (React) dashboard reads the Flask API — open /dashboard while the pipeline runs, or /replay for the event stream."
+    />
+
+    <div class="mb-10 flex flex-wrap items-center justify-center gap-4">
+      <a class="btn btn-primary" href="/dashboard">Open dashboard</a>
+      <a class="btn btn-outline" href="/replay">Open replay</a>
+    </div>
+
+    <div class="grid gap-8 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <div class="overflow-hidden rounded-3xl border border-border bg-light">
+          <div
+            class="flex items-center gap-3 border-b border-border bg-body/60 px-5 py-3"
+          >
+            <span class="flex gap-1.5">
+              <span class="size-2.5 rounded-full bg-secondary/70"></span>
+              <span class="size-2.5 rounded-full bg-amber-400/70"></span>
+              <span class="size-2.5 rounded-full bg-emerald-400/70"></span>
+            </span>
+            <span class="font-mono text-xs text-text-dark">
+              trailguard · dashboard
+            </span>
+            <span
+              class="ml-auto rounded-md bg-white/5 px-2 py-0.5 font-mono text-[0.65rem] text-text"
+            >
+              flask :8000
+            </span>
+          </div>
+
+          <div class="space-y-3 p-5">
+            {
+              sampleAlerts.map((a) => {
+                const s = tierStyle[a.tier];
+                return (
+                  <article class={`rounded-xl border border-border border-l-4 bg-body/40 p-4 ${s.bar}`}>
+                    <div class="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+                      <span class="font-mono text-text-light">
+                        user {a.user.slice(0, 8)}
+                      </span>
+                      <span class="text-text-dark">{a.day}</span>
+                      <span class="font-mono text-white">
+                        risk {a.risk.toFixed(2)}
+                      </span>
+                      <span class={`rounded px-2 py-0.5 font-semibold ${s.badge}`}>
+                        tier {a.tier} · {a.action}
+                      </span>
+                      {a.human && (
+                        <span class="inline-flex items-center gap-1 font-semibold text-secondary">
+                          <Icon name="alert" class="size-3.5" /> needs approval
+                        </span>
+                      )}
+                    </div>
+                    <p class="text-sm leading-6 text-text">{a.summary}</p>
+                    <div class="mt-3 flex flex-wrap items-center gap-2">
+                      {a.reasons.map((r) => (
+                        <span class="rounded-md border border-border bg-light px-2 py-1 text-[0.68rem] text-text">
+                          <span class="text-text-light">{r.label}</span>
+                          <span class="text-text-dark"> · {r.detail}</span>
+                        </span>
+                      ))}
+                      <span class="ml-auto font-mono text-[0.68rem] text-primary">
+                        explain: {a.explainMethod}
+                      </span>
+                    </div>
+                  </article>
+                );
+              })
+            }
+          </div>
+        </div>
+        <p class="mt-4 text-center text-xs text-text-dark">
+          Honest replay: the “live” feed is a playback of historical logs — not
+          a real stream.
+        </p>
+      </div>
+
+      <aside class="space-y-5">
+        <div class="rounded-2xl border border-border bg-light p-6">
+          <h3 class="mb-4 font-secondary text-h6 font-bold text-white">
+            Endpoint API
+          </h3>
+          <ul class="space-y-3 text-sm">
+            {
+              endpoints.map((e) => (
+                <li class="flex items-start gap-3">
+                  <span
+                    class={`mt-0.5 rounded px-1.5 py-0.5 font-mono text-[0.62rem] font-bold ${
+                      e.method === "GET"
+                        ? "bg-emerald-400/15 text-emerald-300"
+                        : "bg-primary/15 text-primary"
+                    }`}
+                  >
+                    {e.method}
+                  </span>
+                  <span class="min-w-0">
+                    <code class="font-mono text-xs text-text-light">{e.path}</code>
+                    <span class="mt-0.5 block text-xs text-text-dark">{e.desc}</span>
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="rounded-2xl border border-border bg-light p-6">
+          <h3 class="mb-3 font-secondary text-h6 font-bold text-white">
+            Human approval
+          </h3>
+          <p class="text-sm leading-6 text-text">
+            Tier 3 shows{" "}
+            <span class="font-semibold text-white">Approve / Reject</span> buttons (COULD).
+            Every decision is recorded — the system never acts on its own.
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-border bg-light p-6">
+          <h3 class="mb-3 font-secondary text-h6 font-bold text-white">
+            Dataset selector
+          </h3>
+          <p class="text-sm leading-6 text-text">
+            The dashboard reads{" "}
+            <code class="font-mono text-xs text-primary">alerts.jsonl</code> or{" "}
+            <code class="font-mono text-xs text-primary">lanl_alerts.jsonl</code>{" "}
+            via the <code class="font-mono text-xs text-primary">TRAILGUARD_CONFIG</code> variable.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>

@@ -1,6 +1,7 @@
 # Pintasan perintah. Ketik `make help`.
 export PYTHONPATH := src
-PY := python3
+# Pakai .venv bila sudah dibuat (make setup); kalau tidak, python3 sistem.
+PY := $(shell [ -x .venv/bin/python ] && echo .venv/bin/python || echo python3)
 
 help:            ## tampilkan bantuan
 	@grep -E '^[a-z-]+:.*##' Makefile | sed 's/:.*##/ -/'
@@ -24,6 +25,13 @@ test:            ## jalankan tes
 	$(PY) -m pytest -q tests
 api:             ## jalankan dashboard di :8000
 	$(PY) -m trailguard.api.app
+ui:              ## salin hasil build dashboard-ui/dist -> static (untuk VM / Node tua; R17)
+	rm -rf src/trailguard/api/static
+	mkdir -p src/trailguard/api/static
+	cp -r dashboard-ui/dist/. src/trailguard/api/static/
+	@echo "static UI siap: src/trailguard/api/static (buka http://127.0.0.1:8000/)"
+ui-build:        ## bangun dashboard-ui dari sumber (butuh Node >=18; di s390x build di laptop)
+	cd dashboard-ui && npm ci && npm run build
 bench:           ## ukur latensi & throughput
 	$(PY) scripts/benchmark_latency.py
 container:       ## build & jalankan container

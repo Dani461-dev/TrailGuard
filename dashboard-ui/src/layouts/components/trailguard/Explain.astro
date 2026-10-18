@@ -1,0 +1,82 @@
+---
+import { explainMethods, claimRules } from "@/data/trailguard";
+import Icon from "./Icon.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+const toneClass: Record<string, string> = {
+  ok: "border-emerald-400/40 bg-emerald-400/5",
+  neutral: "border-primary/40 bg-primary/5",
+  warn: "border-amber-400/40 bg-amber-400/5",
+};
+const methodTag: Record<string, string> = {
+  ok: "bg-emerald-400/15 text-emerald-300",
+  neutral: "bg-primary/15 text-primary",
+  warn: "bg-amber-400/15 text-amber-300",
+};
+---
+
+<section id="explain" class="section scroll-mt-24">
+  <div class="container">
+    <SectionHeading
+      badge="Explainability & honesty"
+      title='The reason behind each alert, <strong>method as-is</strong>'
+      subtitle="Three explanation paths, strongest to fallback. The explain_method column in alerts.jsonl is the single source of truth for claims."
+    />
+
+    <div class="grid gap-5 lg:grid-cols-3">
+      {
+        explainMethods.map((m) => (
+          <article class={`flex flex-col rounded-2xl border p-7 ${toneClass[m.tone]}`}>
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <span class="flex size-10 items-center justify-center rounded-xl bg-white/5 text-white">
+                <Icon name="explain" class="size-5" />
+              </span>
+              <span class={`rounded-md px-2.5 py-1 font-mono text-xs font-semibold ${methodTag[m.tone]}`}>
+                {m.method}
+              </span>
+            </div>
+            <h3 class="mb-2 font-secondary text-h6 font-bold text-white">
+              {m.name}
+            </h3>
+            <p class="text-sm leading-6 text-text">{m.desc}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-12 overflow-hidden rounded-3xl border border-border">
+      <div class="flex flex-wrap items-center gap-3 border-b border-border bg-light px-6 py-4">
+        <Icon name="shield" class="size-5 text-primary" />
+        <h3 class="font-secondary text-h6 font-bold text-white">
+          Honest-claims checklist
+        </h3>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-160 text-left text-sm">
+          <thead class="bg-light/60 text-xs uppercase tracking-wide text-text-dark">
+            <tr>
+              <th class="px-6 py-4 font-semibold">Claim</th>
+              <th class="px-6 py-4 font-semibold text-emerald-300">
+                Claimable if…
+              </th>
+              <th class="px-6 py-4 font-semibold text-secondary">
+                Do not claim if…
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              claimRules.map((r) => (
+                <tr class="border-t border-border align-top">
+                  <td class="px-6 py-4 font-semibold text-white">{r.claim}</td>
+                  <td class="px-6 py-4 text-text">{r.allowed}</td>
+                  <td class="px-6 py-4 text-text-dark">{r.forbidden}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

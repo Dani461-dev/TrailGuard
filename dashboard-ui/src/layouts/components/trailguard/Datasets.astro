@@ -1,0 +1,60 @@
+---
+import { datasets } from "@/data/trailguard";
+import Icon from "./Icon.astro";
+import SectionHeading from "./SectionHeading.astro";
+---
+
+<section id="dataset" class="section scroll-mt-24">
+  <div class="container">
+    <SectionHeading
+      badge="Datasets"
+      title='Two environments, <strong>kept separate</strong>'
+      subtitle="CERT (insider misuse) and LANL (stolen credentials) are evaluated separately because their environments differ. LANL is built as a structured subset."
+    />
+
+    <div class="grid gap-6 lg:grid-cols-2">
+      {
+        datasets.map((d) => (
+          <article class="flex flex-col rounded-3xl border border-border bg-light p-8">
+            <div class="mb-4 flex items-center gap-4">
+              <span class="flex size-12 items-center justify-center rounded-2xl bg-primary/12 text-primary">
+                <Icon name={d.icon} class="size-6" />
+              </span>
+              <div>
+                <h3 class="font-secondary text-h6 font-bold text-white">
+                  {d.name}
+                </h3>
+                <span class="text-xs font-medium uppercase tracking-wide text-text-dark">
+                  {d.kind}
+                </span>
+              </div>
+            </div>
+            <p class="mb-5 text-sm text-text">{d.detail}</p>
+            <ul class="mt-auto space-y-3 border-t border-border pt-5 text-sm text-text">
+              {d.points.map((p) => (
+                <li class="flex gap-3">
+                  <Icon name="check" class="mt-0.5 size-4 shrink-0 text-primary" />
+                  <span>{p}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+
+    <div
+      class="mt-8 flex flex-col gap-3 rounded-2xl border border-border bg-light/60 p-6 sm:flex-row sm:items-center sm:gap-6"
+    >
+      <span class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/5 text-primary">
+        <Icon name="terminal" class="size-5" />
+      </span>
+      <p class="text-sm text-text">
+        Prefilter streaming:
+        <code class="ml-1 font-mono text-xs text-primary">
+          python scripts/prefilter_lanl.py --user-fraction 0.02 --max-day 58
+        </code>
+      </p>
+    </div>
+  </div>
+</section>

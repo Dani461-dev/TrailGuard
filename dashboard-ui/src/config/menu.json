@@ -1,0 +1,33 @@
+{
+  "main": [
+    { "name": "Pipeline", "url": "#alur" },
+    { "name": "Scope", "url": "#scope" },
+    { "name": "Model", "url": "#fitur" },
+    { "name": "Explainability", "url": "#explain" },
+    { "name": "Dashboard", "url": "/dashboard" },
+    { "name": "Replay", "url": "/replay" }
+  ],
+  "footer_col_1_title": "Explore",
+  "footer_col_2_title": "System",
+  "footer_col_3_title": "Project",
+  "footer_primary": [
+    { "name": "System pipeline", "url": "#alur" },
+    { "name": "Working principles", "url": "#prinsip" },
+    { "name": "Scope (MoSCoW)", "url": "#scope" },
+    { "name": "Features & model", "url": "#fitur" }
+  ],
+  "footer_resource": [
+    { "name": "Explainability & claims", "url": "#explain" },
+    { "name": "3-tier policy", "url": "#policy" },
+    { "name": "Dashboard", "url": "#dashboard" },
+    { "name": "Datasets", "url": "#dataset" },
+    { "name": "Deployment", "url": "#deploy" }
+  ],
+  "footer_legal": [
+    { "name": "LinuxONE evidence", "url": "#bukti" },
+    { "name": "Team & roles", "url": "#tim" },
+    { "name": "Stages & gates", "url": "#tahapan" },
+    { "name": "Risks", "url": "#risiko" },
+    { "name": "Definition of Done", "url": "#dod" }
+  ]
+}

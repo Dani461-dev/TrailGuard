@@ -1,0 +1,53 @@
+---
+import Icon from "./Icon.astro";
+
+const links = [
+  { label: "Project Plan (docs/00)", href: "#alur", icon: "route" },
+  { label: "Data Contracts (docs/03)", href: "#alur", icon: "layers" },
+  { label: "Decision Log (docs/05)", href: "#scope", icon: "doc" },
+  { label: "Submission Checklist (docs/04)", href: "#bukti", icon: "check" },
+];
+---
+
+<section class="section">
+  <div class="container">
+    <div
+      class="relative isolate overflow-hidden rounded-4xl bg-light px-8 py-16 text-center lg:px-16"
+    >
+      <span
+        class="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-primary"
+      >
+        <span class="size-1.5 rounded-full bg-primary" />
+        IBM Z Datathon 2026 · SSF2026
+      </span>
+      <h2 class="mx-auto mb-4 max-w-2xl font-secondary text-h4 font-bold text-white lg:text-h3">
+        Humans keep the <span class="text-primary">final say</span>
+      </h2>
+      <p class="mx-auto mb-9 max-w-2xl text-text">
+        TrailGuard only proposes. Every high-impact action waits for analyst
+        approval — the system never blocks accounts on its own.
+      </p>
+
+      <div class="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-3">
+        {
+          links.map((l) => (
+            <a
+              href={l.href}
+              class="inline-flex items-center gap-2 rounded-full border border-border bg-body/50 px-5 py-2.5 text-sm text-text transition hover:border-primary/50 hover:text-white"
+            >
+              <Icon name={l.icon} class="size-4 text-primary" />
+              {l.label}
+            </a>
+          ))
+        }
+      </div>
+
+      <div
+        class="absolute bottom-0 left-1/2 size-120 -translate-x-1/2 translate-y-1/2 -z-10 rounded-full blur-2xl"
+        style="background: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 55%, transparent) 0%, transparent 65%);"
+        aria-hidden="true"
+      >
+      </div>
+    </div>
+  </div>
+</section>

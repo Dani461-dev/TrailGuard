@@ -1,0 +1,272 @@
+---
+import ApiStatus from "@/layouts/dashboard/ApiStatus";
+import NavIcon from "@/layouts/dashboard/NavIcon.astro";
+import RealtimeBell from "@/layouts/dashboard/RealtimeBell";
+import { ToastHost } from "@/layouts/dashboard/primitives";
+
+export interface Props {
+  pageTitle?: string;
+  pageSubtitle?: string;
+}
+
+const { pageTitle = "Dashboard", pageSubtitle } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+interface NavItem {
+  label: string;
+  href: string;
+  icon: string;
+  match: (p: string) => boolean;
+}
+
+const ops: NavItem[] = [
+  {
+    label: "Overview",
+    href: "/dashboard",
+    icon: "grid",
+    match: (p) => p === "/dashboard",
+  },
+  {
+    label: "Alert",
+    href: "/dashboard/alerts",
+    icon: "alert",
+    match: (p) => p.startsWith("/dashboard/alerts"),
+  },
+];
+
+const analytics: NavItem[] = [
+  {
+    label: "Replay",
+    href: "/replay",
+    icon: "play",
+    match: (p) => p.startsWith("/replay"),
+  },
+];
+
+const isReplay = path.startsWith("/replay");
+const primaryAction = isReplay
+  ? { label: "Overview", href: "/dashboard", icon: "grid" }
+  : { label: "Replay", href: "/replay", icon: "play" };
+---
+
+<div class="flex min-h-screen bg-body text-text">
+  <!-- mobile toggle (CSS-only) -->
+  <input id="app-nav-toggle" type="checkbox" class="peer/nav hidden" />
+
+  <!-- backdrop -->
+  <label
+    for="app-nav-toggle"
+    aria-hidden="true"
+    class="peer-checked/nav:pointer-events-auto peer-checked/nav:opacity-100 fixed inset-0 z-40 bg-black/60 opacity-0 backdrop-blur-sm transition-opacity duration-300 lg:hidden"
+  ></label>
+
+  <!-- sidebar -->
+  <aside
+    class="peer-checked/nav:translate-x-0 dr-scroll fixed inset-y-0 left-0 z-50 flex w-72 -translate-x-full flex-col overflow-y-auto border-r border-border bg-light/95 backdrop-blur-xl transition-transform duration-300 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0"
+  >
+    <!-- brand -->
+    <div class="flex h-16 shrink-0 items-center gap-3 border-b border-border px-5">
+      <span
+        class="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-primary to-primary-light text-white shadow-lg shadow-primary/30"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.9"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="size-5"
+          aria-hidden="true"
+        >
+          <path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z"></path>
+          <path d="m9 12 2 2 4-4"></path>
+        </svg>
+      </span>
+      <div class="min-w-0">
+        <p class="font-secondary text-base font-bold leading-tight text-white">
+          TrailGuard
+        </p>
+        <p class="text-[0.68rem] text-text-dark">insider-threat ops</p>
+      </div>
+      <label
+        for="app-nav-toggle"
+        class="ml-auto grid size-8 cursor-pointer place-items-center rounded-lg text-text-dark hover:bg-white/5 hover:text-white lg:hidden"
+        aria-label="Close menu"
+      >
+        <svg viewBox="0 0 24 24" class="size-4 fill-current" aria-hidden="true"
+          ><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg
+        >
+      </label>
+    </div>
+
+    <!-- nav -->
+    <nav class="flex-1 space-y-6 px-3 py-5">
+      <div>
+        <p
+          class="px-3 pb-2 text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-text-dark"
+        >
+          Operations
+        </p>
+        <ul class="space-y-1">
+          {
+            ops.map((item) => {
+              const active = item.match(path);
+              return (
+                <li>
+                  <a
+                    href={item.href}
+                    class:list={[
+                      "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition",
+                      active
+                        ? "bg-primary/15 text-white ring-1 ring-inset ring-primary/35"
+                        : "text-text-dark hover:bg-white/5 hover:text-text",
+                    ]}
+                  >
+                    <span
+                      class:list={[
+                        "grid size-8 place-items-center rounded-lg border transition",
+                        active
+                          ? "border-primary/40 bg-primary/20 text-primary-light"
+                          : "border-border bg-body/40 text-text-dark group-hover:text-text",
+                      ]}
+                    >
+                      <NavIcon name={item.icon} />
+                    </span>
+                    {item.label}
+                    {active && (
+                      <span class="ml-auto size-1.5 rounded-full bg-primary" />
+                    )}
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </div>
+
+      <div>
+        <p
+          class="px-3 pb-2 text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-text-dark"
+        >
+          Analytics
+        </p>
+        <ul class="space-y-1">
+          {
+            analytics.map((item) => {
+              const active = item.match(path);
+              return (
+                <li>
+                  <a
+                    href={item.href}
+                    class:list={[
+                      "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition",
+                      active
+                        ? "bg-primary/15 text-white ring-1 ring-inset ring-primary/35"
+                        : "text-text-dark hover:bg-white/5 hover:text-text",
+                    ]}
+                  >
+                    <span
+                      class:list={[
+                        "grid size-8 place-items-center rounded-lg border transition",
+                        active
+                          ? "border-primary/40 bg-primary/20 text-primary-light"
+                          : "border-border bg-body/40 text-text-dark group-hover:text-text",
+                      ]}
+                    >
+                      <NavIcon name={item.icon} />
+                    </span>
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </div>
+    </nav>
+
+    <!-- sidebar footer -->
+    <div class="shrink-0 space-y-3 border-t border-border p-4">
+      <ApiStatus client:load />
+      <a
+        href="/"
+        class="flex items-center gap-2 rounded-xl border border-border bg-body/40 px-3 py-2 text-xs text-text-dark transition hover:border-primary/30 hover:text-text"
+      >
+        <NavIcon name="external" />
+        Back to site
+      </a>
+    </div>
+  </aside>
+
+  <!-- content -->
+  <div class="flex min-w-0 flex-1 flex-col">
+    <!-- topbar -->
+    <header
+      class="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-border bg-body/80 px-4 backdrop-blur-xl sm:px-6"
+    >
+      <label
+        for="app-nav-toggle"
+        class="grid size-9 cursor-pointer place-items-center rounded-lg border border-border text-text-light transition hover:bg-white/5 lg:hidden"
+        aria-label="Open menu"
+      >
+        <NavIcon name="menu" />
+      </label>
+
+      <div class="min-w-0">
+        <div class="flex items-center gap-2 text-[0.68rem] text-text-dark">
+          <a href="/" class="hover:text-text">TrailGuard</a>
+          <span>/</span>
+          <span class="text-text">{pageTitle}</span>
+        </div>
+        <h1
+          class="truncate font-secondary text-lg font-bold leading-tight text-white"
+        >
+          {pageTitle}
+        </h1>
+      </div>
+
+      <div class="ml-auto flex items-center gap-2">
+        {
+          pageSubtitle && (
+            <p class="mr-1 hidden max-w-xs truncate text-xs text-text-dark xl:block">
+              {pageSubtitle}
+            </p>
+          )
+        }
+        <RealtimeBell client:load />
+        <button
+          id="dr-refresh"
+          type="button"
+          class="grid size-9 place-items-center rounded-lg border border-border text-text-light transition hover:border-primary/40 hover:text-white"
+          aria-label="Reload data"
+          title="Reload data"
+        >
+          <NavIcon name="refresh" />
+        </button>
+        <a
+          href={primaryAction.href}
+          class="inline-flex items-center gap-2 rounded-lg border border-primary/40 bg-primary/10 px-3.5 py-2 text-sm font-medium text-primary transition hover:bg-primary/20"
+        >
+          <NavIcon name={primaryAction.icon} />
+          <span class="hidden sm:inline">{primaryAction.label}</span>
+        </a>
+      </div>
+    </header>
+
+    <main id="main-content" class="flex-1 px-4 py-6 sm:px-6 lg:px-8">
+      <slot />
+    </main>
+  </div>
+</div>
+
+<ToastHost client:load />
+
+<script>
+  const btn = document.getElementById("dr-refresh");
+  btn?.addEventListener("click", () => {
+    window.dispatchEvent(new CustomEvent("trailguard:refresh"));
+    btn.classList.add("dr-spin");
+    window.setTimeout(() => btn.classList.remove("dr-spin"), 700);
+  });
+</script>

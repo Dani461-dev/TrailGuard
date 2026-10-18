@@ -1,0 +1,13 @@
+---
+import AppLayout from "@/layouts/AppLayout.astro";
+import Replay from "@/layouts/dashboard/Replay";
+---
+
+<AppLayout
+  title="Replay · TrailGuard Dashboard"
+  description="Playback of historical TrailGuard logs as an event stream (a replay, not real streaming)."
+  pageTitle="Replay"
+  pageSubtitle="Playback of historical logs — not real streaming"
+>
+  <Replay client:load />
+</AppLayout>

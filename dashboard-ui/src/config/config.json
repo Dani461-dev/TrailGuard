@@ -1,0 +1,39 @@
+{
+  "site": {
+    "title": "TrailGuard",
+    "base_url": "",
+    "base_path": "/",
+    "trailing_slash": false,
+    "favicon": "/images/favicon.png",
+    "logo": "",
+    "logo_width": "160",
+    "logo_height": "45",
+    "logo_text": "TrailGuard"
+  },
+  "settings": {
+    "sticky_header": true
+  },
+  "params": {
+    "contact_form_action": "#",
+    "checklist_form_action": "#",
+    "apply_form_action": "#",
+    "copyright": "TrailGuard &bull; <strong>IBM Z Datathon 2026</strong> (SSF2026) — Privacy-Preserving, Explainable Insider-Threat Detection on IBM LinuxONE.",
+    "footer_tagline": "Privacy-preserving, explainable insider-threat detection pipeline — running entirely on IBM LinuxONE.",
+    "footer_email": "tim@trailguard.local",
+    "footer_phone": ""
+  },
+  "navigation_button": {
+    "enable": true,
+    "label": "Open dashboard",
+    "link": "/dashboard"
+  },
+  "google_tag_manager": {
+    "enable": false,
+    "gtm_id": "GTM-XXXXXX"
+  },
+  "metadata": {
+    "meta_author": "TrailGuard Team",
+    "meta_image": "/images/og-image.png",
+    "meta_description": "TrailGuard — a privacy-preserving, explainable insider-threat detection pipeline running entirely on IBM LinuxONE. IBM Z Datathon 2026 (SSF2026)."
+  }
+}

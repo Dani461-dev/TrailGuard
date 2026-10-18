@@ -1,0 +1,56 @@
+---
+import { risks } from "@/data/trailguard";
+import SectionHeading from "./SectionHeading.astro";
+
+const impact: Record<string, string> = {
+  High: "bg-secondary/15 text-secondary",
+  Medium: "bg-amber-400/15 text-amber-300",
+  Fatal: "bg-secondary/25 text-secondary",
+  "—": "bg-white/5 text-text-dark",
+};
+---
+
+<section id="risiko" class="section scroll-mt-24">
+  <div class="container">
+    <SectionHeading
+      badge="Risk management"
+      title='What can <strong>break</strong> the project'
+      subtitle="Every risk has a mitigation and an owner. High risks (R1, R8, R9, R11) are tightly guarded through the Gates."
+    />
+
+    <div class="overflow-hidden rounded-3xl border border-border">
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-200 text-left text-sm">
+          <thead class="bg-light text-xs uppercase tracking-wide text-text-dark">
+            <tr>
+              <th class="px-5 py-4 font-semibold">#</th>
+              <th class="px-5 py-4 font-semibold">Risk</th>
+              <th class="px-5 py-4 font-semibold">Impact</th>
+              <th class="px-5 py-4 font-semibold">Mitigation</th>
+              <th class="px-5 py-4 font-semibold">Owner</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              risks.map((r) => (
+                <tr class="border-t border-border align-top">
+                  <td class="px-5 py-4 font-mono text-xs font-semibold text-primary">
+                    {r.id}
+                  </td>
+                  <td class="px-5 py-4 text-text-light">{r.risk}</td>
+                  <td class="px-5 py-4">
+                    <span class={`rounded-md px-2 py-0.5 text-xs font-semibold ${impact[r.impact] ?? impact["—"]}`}>
+                      {r.impact}
+                    </span>
+                  </td>
+                  <td class="px-5 py-4 text-text">{r.mitigation}</td>
+                  <td class="px-5 py-4 text-xs text-text-dark">{r.owner}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

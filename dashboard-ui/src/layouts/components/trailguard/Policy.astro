@@ -1,0 +1,61 @@
+---
+import { policyTiers } from "@/data/trailguard";
+import Icon from "./Icon.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+const tone: Record<string, { bar: string; badge: string; text: string }> = {
+  t1: { bar: "border-l-zinc-500", badge: "bg-zinc-500/15 text-zinc-300", text: "text-zinc-300" },
+  t2: { bar: "border-l-amber-400", badge: "bg-amber-400/15 text-amber-300", text: "text-amber-300" },
+  t3: { bar: "border-l-secondary", badge: "bg-secondary/15 text-secondary", text: "text-secondary" },
+};
+---
+
+<section id="policy" class="section scroll-mt-24">
+  <div class="container">
+    <SectionHeading
+      badge="Policy · human-in-the-loop"
+      title='Three tiers, <strong>humans stay in control</strong>'
+      subtitle="Risk score 0–1 maps to tiered responses. The system never blocks accounts automatically — high-impact actions require analyst approval."
+    />
+
+    <div class="grid gap-5 lg:grid-cols-3">
+      {
+        policyTiers.map((t) => (
+          <article
+            class={`rounded-2xl border border-border border-l-4 bg-light p-7 ${tone[t.tone].bar}`}
+          >
+            <div class="mb-5 flex items-center justify-between">
+              <span class={`rounded-lg px-3 py-1 font-mono text-sm font-bold ${tone[t.tone].badge}`}>
+                tier {t.tier}
+              </span>
+              <span class="font-mono text-xs text-text-dark">{t.range}</span>
+            </div>
+            <p class="mb-2 font-mono text-sm text-text-light">{t.action}</p>
+            <p class="mb-5 text-sm leading-6 text-text">{t.desc}</p>
+            <div class="flex items-center gap-2 border-t border-border pt-4 text-xs">
+              {
+                t.human ? (
+                  <>
+                    <Icon name="user" class={`size-4 ${tone[t.tone].text}`} />
+                    <span class={tone[t.tone].text}>Human approval required</span>
+                  </>
+                ) : (
+                  <>
+                    <Icon name="check" class="size-4 text-text-dark" />
+                    <span class="text-text-dark">Automatic, no impactful action</span>
+                  </>
+                )
+              }
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="mt-8 text-center text-sm text-text-dark">
+      Thresholds from <code class="font-mono text-text">configs/config.yaml</code>:
+      <span class="font-mono text-text-light"> step_up_threshold: 0.60</span> ·
+      <span class="font-mono text-text-light"> ticket_threshold: 0.85</span>
+    </p>
+  </div>
+</section>

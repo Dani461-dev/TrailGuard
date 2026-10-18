@@ -10,3 +10,5 @@ models/*.joblib
 outputs/*.jsonl
 *.log
 .ipynb_checkpoints/
+node_modules/
+src/trailguard/api/static/

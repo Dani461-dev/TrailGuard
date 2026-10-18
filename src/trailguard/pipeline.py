@@ -68,8 +68,11 @@ def step_train(cfg):
 
 def step_evaluate(cfg):
     _, test, _ = temporal_split(_load_feat(cfg), cfg["model"]["train_fraction"])
-    scored = score_frame(load_bundle(path_of(cfg, "model")), test, cfg["model"]["ensemble_weight_supervised"])
+    bundle = load_bundle(path_of(cfg, "model"))
+    scored = score_frame(bundle, test, cfg["model"]["ensemble_weight_supervised"])
     m = alert_budget_metrics(scored, cfg["evaluation"]["alert_budget_per_day"])
+    if bundle.get("sup_model"):
+        m["sup_model"] = bundle["sup_model"]   # model supervised yang benar-benar dipakai
     p = path_of(cfg, "metrics"); p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(m, indent=2))
     print("[evaluate]", json.dumps(m, indent=2))

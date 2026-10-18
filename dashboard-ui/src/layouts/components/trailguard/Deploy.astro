@@ -1,0 +1,88 @@
+---
+import { deploy } from "@/data/trailguard";
+import Icon from "./Icon.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+const commands = [
+  { c: "bash scripts/00_check_env.sh", d: "check architecture & tools (expect s390x)" },
+  { c: "bash scripts/01_setup_env.sh", d: "venv + dependencies" },
+  { c: "make toy", d: "toy data + full pipeline (< 1 min)" },
+  { c: "make shap-check", d: "go/no-go SHAP & pyarrow" },
+  { c: "make api", d: "dashboard on :8000" },
+  { c: "make container", d: "build & run with podman/docker" },
+];
+---
+
+<section id="deploy" class="section scroll-mt-24">
+  <div class="container">
+    <SectionHeading
+      badge="Deployment · IBM LinuxONE"
+      title='Runs on <strong>s390x</strong>, containerized'
+      subtitle="The whole pipeline and dashboard run inside a LinuxONE instance. This static landing is served by nginx on the VM."
+    />
+
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        deploy.map((d) => (
+          <article class="flex flex-col rounded-2xl border border-border bg-light p-6">
+            <span class="mb-4 flex size-11 items-center justify-center rounded-xl bg-primary/12 text-primary">
+              <Icon name={d.icon} class="size-5.5" />
+            </span>
+            <h3 class="mb-2 font-secondary text-h6 font-bold text-white">
+              {d.title}
+            </h3>
+            <p class="text-sm leading-6 text-text">{d.desc}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-12 grid gap-8 lg:grid-cols-2">
+      <div class="overflow-hidden rounded-3xl border border-border bg-body">
+        <div class="flex items-center gap-2 border-b border-border bg-light px-5 py-3">
+          <Icon name="terminal" class="size-4 text-primary" />
+          <span class="font-mono text-xs text-text-dark">on the LinuxONE VM</span>
+        </div>
+        <div class="divide-y divide-border/60">
+          {
+            commands.map((cmd) => (
+              <div class="flex flex-wrap items-center gap-x-4 gap-y-1 px-5 py-3">
+                <code class="font-mono text-xs text-primary">$ {cmd.c}</code>
+                <span class="text-xs text-text-dark">— {cmd.d}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-center rounded-3xl border border-border bg-light p-8">
+        <h3 class="mb-4 font-secondary text-h5 font-bold text-white">
+          Why it is privacy-safe
+        </h3>
+        <ul class="space-y-4 text-sm text-text">
+          <li class="flex gap-3">
+            <Icon name="lock" class="mt-0.5 size-5 shrink-0 text-primary" />
+            <span>
+              HMAC key lives in <code class="font-mono text-xs">.env</code>; raw
+              data & the key do <strong>not</strong> go into the container image.
+            </span>
+          </li>
+          <li class="flex gap-3">
+            <Icon name="shield" class="mt-0.5 size-5 shrink-0 text-primary" />
+            <span>
+              Identities are hashed at ingestion (HMAC-SHA256, 16 hex) — the
+              dashboard only shows pseudonymized IDs.
+            </span>
+          </li>
+          <li class="flex gap-3">
+            <Icon name="server" class="mt-0.5 size-5 shrink-0 text-primary" />
+            <span>
+              The model is <em>pickled</em> & loaded on the same architecture
+              (LinuxONE) — train and load on the same machine.
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

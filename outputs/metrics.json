@@ -1,0 +1,12 @@
+{
+  "alert_budget_per_day": 5,
+  "n_alerts": 115,
+  "n_malicious_user_days": 21,
+  "true_positive_alerts": 21,
+  "precision_at_budget": 0.1826,
+  "recall_at_budget": 1.0,
+  "insiders_in_test": 3,
+  "insiders_detected": 3,
+  "median_days_to_detection": 0.0,
+  "sup_model": "HistGradientBoostingClassifier"
+}

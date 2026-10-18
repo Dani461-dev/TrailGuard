@@ -1,0 +1,62 @@
+---
+import { meta } from "@/data/trailguard";
+---
+
+<section class="section-ph relative overflow-hidden">
+  <div class="absolute top-0 left-0 w-full -z-10">
+    <div class="h-100 w-full -translate-y-10 overflow-hidden">
+      <canvas class="heroSporeCanvas w-full"></canvas>
+    </div>
+  </div>
+
+  <div class="container relative">
+    <div class="row justify-center">
+      <div class="relative mb-12 text-center col-12 lg:col-11 xl:col-10">
+        <div
+          class="mx-auto mb-7 flex max-w-max flex-wrap items-center justify-center gap-2 rounded-full border border-border bg-light/70 px-4 py-1.5 text-xs font-medium text-text backdrop-blur"
+        >
+          <span class="rounded-full bg-primary/15 px-2.5 py-0.5 font-semibold text-primary">
+            {meta.event}
+          </span>
+          <span class="text-text-dark">·</span>
+          <span class="font-mono text-text-light">{meta.eventCode}</span>
+          <span class="text-text-dark">·</span>
+          <span>{meta.theme}</span>
+        </div>
+
+        <h1 class="mb-6 text-h4 sm:text-h3 md:text-h2 hasHighlight">
+          <span class="text-primary">{meta.name}</span> — Privacy-Preserving,
+          Explainable Insider-Threat Detection on <strong>IBM LinuxONE</strong>
+        </h1>
+
+        <p class="mx-auto mb-9 max-w-2xl text-h6-sm text-text md:text-lg">
+          {meta.tagline}
+        </p>
+
+        <div class="mb-12 flex flex-wrap items-center justify-center gap-4">
+          <a class="btn btn-primary" href="#alur">See the pipeline</a>
+          <a class="btn btn-outline" href="/dashboard">Open dashboard</a>
+        </div>
+
+        <div
+          class="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-x-2 gap-y-3 text-xs font-mono text-text-dark sm:text-sm"
+        >
+          {
+            meta.flow.map((step, i) => (
+              <>
+                <span class="rounded-lg border border-border bg-light px-3 py-1.5 text-text">
+                  {step}
+                </span>
+                {i < meta.flow.length - 1 && (
+                  <span class="text-primary" aria-hidden="true">
+                    →
+                  </span>
+                )}
+              </>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

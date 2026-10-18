@@ -1,0 +1,36 @@
+---
+interface Props {
+  badge?: string;
+  title: string;
+  subtitle?: string;
+  align?: "center" | "left";
+  class?: string;
+}
+
+const {
+  badge,
+  title,
+  subtitle,
+  align = "center",
+  class: className = "",
+} = Astro.props;
+
+const alignment =
+  align === "center" ? "centralize text-center" : "text-left";
+---
+
+<div class={`section-container ${className}`}>
+  <div class={`section-intro ${alignment}`}>
+    {
+      badge && (
+        <span class="inline-flex max-w-max items-center gap-x-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+          <span class="size-1.5 rounded-full bg-primary" />
+          {badge}
+        </span>
+      )
+    }
+    <h2 class="title hasHighlight" set:html={title} />
+    {subtitle && <p class="subtitle">{subtitle}</p>}
+  </div>
+  <slot />
+</div>
