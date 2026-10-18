@@ -1,4 +1,4 @@
-arsitektur=arm64 python=3.15.0 byteorder=little
+arsitektur=s390x python=3.10.12 byteorder=big
 [GAGAL] pyarrow: ModuleNotFoundError: No module named 'pyarrow'
 [GAGAL] shap (library): ModuleNotFoundError: No module named 'shap'
 [OK]    Shapley implementasi sendiri: Shapley sendiri benar (efficiency terpenuhi) (0.0s)
