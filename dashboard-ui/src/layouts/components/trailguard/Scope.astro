@@ -1,0 +1,81 @@
+---
+import { scope, decisions } from "@/data/trailguard";
+import SectionHeading from "./SectionHeading.astro";
+
+const toneClass: Record<string, string> = {
+  must: "border-primary/40 text-primary",
+  target: "border-secondary/50 text-secondary",
+  should: "border-emerald-400/40 text-emerald-300",
+  could: "border-amber-400/40 text-amber-300",
+  wont: "border-zinc-500/40 text-zinc-400",
+  deferred: "border-sky-400/40 text-sky-300",
+};
+
+const dotClass: Record<string, string> = {
+  must: "bg-primary",
+  target: "bg-secondary",
+  should: "bg-emerald-400",
+  could: "bg-amber-400",
+  wont: "bg-zinc-500",
+  deferred: "bg-sky-400",
+};
+---
+
+<section id="scope" class="section scroll-mt-24">
+  <div class="container">
+    <SectionHeading
+      badge="Scope priorities · MoSCoW"
+      title='What is <strong>required</strong>, what is a stretch'
+      subtitle="Cut scope early — decisions happen at the Gate, not at the end. The SHAP claim target is judged go/no-go at Gate 1."
+    />
+
+    <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {
+        scope.map((s) => (
+          <article
+            class={`flex flex-col rounded-2xl border bg-light p-7 ${toneClass[s.tone]}`}
+          >
+            <div class="mb-5 flex items-center justify-between gap-3">
+              <h3 class="font-secondary text-h6 font-bold text-white">
+                {s.level}
+              </h3>
+              <span class={`size-2.5 rounded-full ${dotClass[s.tone]}`} />
+            </div>
+            <ul class="mb-6 space-y-2.5 text-sm text-text">
+              {s.items.map((item) => (
+                <li class="flex gap-2.5">
+                  <span class="mt-2 size-1.5 shrink-0 rounded-full bg-current opacity-70" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+            <p class="mt-auto border-t border-border pt-4 text-xs font-medium uppercase tracking-wide">
+              {s.limit}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-16 rounded-3xl border border-border bg-light/60 p-8 lg:p-10">
+      <h3 class="mb-6 font-secondary text-h5 font-bold text-white">
+        Early decisions already locked in
+      </h3>
+      <div class="grid gap-x-10 gap-y-5 lg:grid-cols-2">
+        {
+          decisions.map((d) => (
+            <div class="flex gap-4 border-b border-border/70 pb-5 last:border-0">
+              <span class="mt-0.5 shrink-0 rounded-md bg-primary/15 px-2 py-0.5 font-mono text-xs font-semibold text-primary">
+                {d.id}
+              </span>
+              <div>
+                <p class="text-sm font-semibold text-white">{d.decision}</p>
+                <p class="mt-1 text-xs leading-5 text-text">{d.reason}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

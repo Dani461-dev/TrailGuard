@@ -1,0 +1,36 @@
+---
+import { principles } from "@/data/trailguard";
+import Icon from "./Icon.astro";
+import SectionHeading from "./SectionHeading.astro";
+---
+
+<section id="prinsip" class="section scroll-mt-24">
+  <div class="container">
+    <SectionHeading
+      badge="Working principles"
+      title='How we work <strong>while new to Linux</strong>'
+      subtitle="Five rules that keep the team moving even though the environment is unfamiliar and time is short."
+    />
+
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        principles.map((p, i) => (
+          <article class="flex flex-col rounded-2xl border border-border bg-light p-7">
+            <div class="mb-5 flex items-center gap-4">
+              <span class="flex size-11 items-center justify-center rounded-xl bg-primary/12 text-primary">
+                <Icon name={p.icon} class="size-5.5" />
+              </span>
+              <span class="font-secondary text-h4 font-bold text-text-dark/40">
+                {i + 1}
+              </span>
+            </div>
+            <h3 class="mb-2 font-secondary text-h6 font-bold text-white">
+              {p.title}
+            </h3>
+            <p class="text-sm leading-6 text-text">{p.desc}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

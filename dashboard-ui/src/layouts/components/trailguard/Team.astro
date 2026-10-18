@@ -1,0 +1,78 @@
+---
+import { teamRoles } from "@/data/trailguard";
+import Icon from "./Icon.astro";
+import SectionHeading from "./SectionHeading.astro";
+---
+
+<section id="tim" class="section scroll-mt-24">
+  <div class="container">
+    <SectionHeading
+      badge="Team & responsibilities"
+      title='6 people, 3 groups, <strong>clear file ownership</strong>'
+      subtitle="Each group holds 2 different roles that back each other up. Avoid Git conflicts by only editing your own files."
+    />
+
+    <div class="grid gap-5 lg:grid-cols-3">
+      {
+        teamRoles.map((g) => (
+          <article class="flex flex-col rounded-3xl border border-border bg-light p-7">
+            <div class="mb-6 flex items-center gap-4">
+              <span class="flex size-11 items-center justify-center rounded-xl bg-primary/12 text-primary">
+                <Icon name={g.icon} class="size-5.5" />
+              </span>
+              <h3 class="font-secondary text-h6 font-bold text-white">
+                {g.group}
+              </h3>
+            </div>
+            <div class="space-y-5">
+              {g.roles.map((r) => (
+                <div class="border-t border-border pt-4 first:border-0 first:pt-0">
+                  <p class="font-mono text-sm font-semibold text-primary">
+                    {r.name}
+                  </p>
+                  <p class="mt-1 text-sm leading-6 text-text">{r.focus}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-10 grid gap-5 md:grid-cols-3">
+      <div class="rounded-2xl border border-border bg-light/60 p-6">
+        <h4 class="mb-2 font-secondary text-h6 font-bold text-white">
+          Branches per role
+        </h4>
+        <p class="text-sm leading-6 text-text">
+          <code class="font-mono text-xs text-text-light">a-platform/…</code>{" "}
+          <code class="font-mono text-xs text-text-light">b-model/…</code>{" "}
+          <code class="font-mono text-xs text-text-light">c-lead/…</code> — merge
+          into <code class="font-mono text-xs">main</code> via small PRs, reviewed
+          by other groups.
+        </p>
+      </div>
+      <div class="rounded-2xl border border-border bg-light/60 p-6">
+        <h4 class="mb-2 font-secondary text-h6 font-bold text-white">
+          main stays green
+        </h4>
+        <p class="text-sm leading-6 text-text">
+          Before merging,{" "}
+          <code class="font-mono text-xs text-text-light">make toy</code>{" "}
+          must succeed. Do not commit large data,{" "}
+          <code class="font-mono text-xs">.env</code>, or{" "}
+          <code class="font-mono text-xs">.joblib</code> models.
+        </p>
+      </div>
+      <div class="rounded-2xl border border-border bg-light/60 p-6">
+        <h4 class="mb-2 font-secondary text-h6 font-bold text-white">
+          PM = keeps the Gates
+        </h4>
+        <p class="text-sm leading-6 text-text">
+          Stand-ups are sent to the PM at every Gate & the LANL Checkpoint; the
+          Decision Log is the project's decision memory.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,8 @@
+arsitektur=arm64 python=3.15.0 byteorder=little
+[GAGAL] pyarrow: ModuleNotFoundError: No module named 'pyarrow'
+[GAGAL] shap (library): ModuleNotFoundError: No module named 'shap'
+[OK]    Shapley implementasi sendiri: Shapley sendiri benar (efficiency terpenuhi) (0.0s)
+
+=== KESIMPULAN KLAIM ===
+SHAP library : TIDAK bisa. Pakai 'Shapley-value explanations (implementasi sendiri, gaya SHAP)'. Jangan tulis 'SHAP library'.
+Parquet      : TIDAK. Tetap CSV.gz; jangan klaim Parquet/pyarrow.

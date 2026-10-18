@@ -1,21 +1,3 @@
-# 05 — Decision Log & Catatan Kompatibilitas
-
-Tulis setiap keputusan penting (1–3 baris). Ini juga bahan jujur untuk bagian "Limitations" dan Q&A juri.
-
-## Keputusan awal (PM, sebelum kick-off)
-| # | Keputusan | Alasan | Tinjau ulang bila… |
-|---|---|---|---|
-| D1 | Flask (bukan FastAPI/Streamlit) | pure-Python; FastAPI/Streamlit menarik pydantic-core/pyarrow yang berisiko di s390x | semua paket terbukti OK di Gate 1 |
-| D2 | Data antar-langkah = **CSV.gz default; Parquet opsional** bila pyarrow lolos `make shap-check` | pyarrow berisiko di s390x; pipeline fallback otomatis | pyarrow OK → set `io.format: parquet` |
-| D3 | Supervised = `HistGradientBoostingClassifier` (sklearn) | tanpa dependensi tambahan | LightGBM/XGBoost lolos uji A3 dan lebih baik |
-| D4 | **Target klaim SHAP.** Urutan penjelasan: `shap` (library) → `shapley` (implementasi sendiri, teruji) → `deviation` | tim ingin klaim SHAP; klaim wajib sesuai metode yang benar-benar jalan | hasil go/no-go H+3 |
-| D5 | **LANL tetap di scope** (keputusan tim), dikerjakan sebagai **subset** via prefilter streaming; pipeline terpisah (`config_lanl.yaml`) | data penuh ±1 miliar baris tak layak di VM/24 jam | checkpoint H+6 / Gate 2 / Gate 3 meleset → PM memutuskan di Gate & mencatat di sini |
-| D6 | Split TEMPORAL, metrik alert-budget + time-to-detection | data sangat langka, hindari leakage | — |
-| D7 | Replay = simulasi stream, dinyatakan jujur | klaim "real-time" harus bisa dibuktikan | — |
-
-## Tabel kompatibilitas paket di LinuxONE (isi oleh Grup A)
-| Paket | Versi | Status (OK/GAGAL) | Pesan error / catatan | Waktu pasang |
-|---|---|---|---|---|
 | pandas | | | | |
 | scikit-learn | | | | |
 | flask | | | | |
@@ -45,34 +27,3 @@ Tulis setiap keputusan penting (1–3 baris). Ini juga bahan jujur untuk bagian 
 |---|---|---|---|
 | CERT r4.2 | `weighted alpha=0.95` (0.7346) | `weighted alpha=1.0` (0.8120) | Murni anomaly (`alpha=0.0`) 0.0283 — jauh lebih buruk |
 | LANL subset | `weighted alpha=0.95` (0.1678) | `weighted alpha=1.0` (0.1967) | Murni anomaly (`alpha=0.0`) 0.0166; validasi hanya **14 positif** → kesimpulan ini sendiri tidak stabil |
-
-## Hasil go/no-go (isi oleh A-Platform di H+1–3)
-| Item | Hasil (OK/GAGAL) | Versi / pesan error | Waktu pasang | Konsekuensi klaim |
-|---|---|---|---|---|
-| pyarrow | | | | OK → boleh Parquet · GAGAL → CSV saja |
-| shap (library) | | | | OK → boleh klaim "SHAP" · GAGAL → "Shapley sendiri" |
-| numba / llvmlite | | | | (penyebab umum kegagalan shap) |
-
-## Catatan LANL (isi oleh A-Platform & B-Data)
-| Item | Nilai |
-|---|---|
-| Ruang disk bebas sebelum unduh | (A-Platform; sumber `auth.txt` 70 GB ada di working copy ini) |
-| Kecepatan prefilter (baris/detik, `--max-lines`) | **1.779.619 baris/detik** dibaca · **50.217 baris/detik** disimpan (`baca=533.885.710 simpan=15.065.146`, 300 s) — termasuk hashing HMAC user & komputer |
-| Parameter akhir (`--normal-per-mille`, `--margin-days`) | `--normal-per-mille 25` (sampel 2,5% user normal → 1.143 user) · `--margin-days 2` → cutoff `t ≤ 2.729.847` |
-| Reproduksibilitas | dijalankan ulang dengan parameter sama: jumlah baris, 104/104 user red-team, dan **seluruh metrik hilir identik** (0,0833 / 0,1471 / 4-26 / 60 alert). Byte `.gz` berbeda hanya karena header gzip menyimpan waktu — bukan karena isinya berbeda. |
-| Ukuran subset (baris / MB) | **15.065.146 baris** disimpan · `lanl_subset_auth.csv.gz` **±100 MB** · `lanl_redteam_hashed.csv.gz` ±10 KB |
-| Jumlah user red-team & event red-team | **104 user** · **749 event** (setelah dedup: 34 baris identik) → **181 user-hari** berlabel |
-
-## Kualitas data (B8) — diukur, bukan diklaim
-| Pemeriksaan | CERT r4.2 (`features.csv.gz`) | LANL subset (`lanl_features.csv.gz`) |
-|---|---|---|
-| Baris / user / hari | 330.285 / 1.000 / 501 | 15.065 / 1.247 / 32 |
-| Duplikat `(user, day)` | **0** | **0** |
-| `day` gagal di-parse (NaT) | **0** | **0** |
-| Baris tanpa aktivitas (semua fitur 0) | **0** | **0** |
-| Kolom fitur (semua bukan-NaN) | 19 | 22 |
-| Distribusi label | 328.921 negatif / **1.364 positif (0,41%)** | 14.884 negatif / **181 positif (1,2%)** |
-| User berlabel | **70** (= seluruh insider r4.2) | **104** (= seluruh user red-team) |
-| Sebaran label | tersebar di 501 hari; puncak 13 user-hari/hari (Agustus 2010) | **menggerombol** di hari ke-2…17 (puncak 45 user-hari) + sedikit di hari ke-27 |
-
-Catatan: (a) file jawaban CERT mentah **tidak ada di working copy ini** (di luar repo) sehingga duplikat pada `answers/insiders.csv` tak bisa diukur di sini — yang bisa dibuktikan adalah **semua 70 insider r4.2 muncul** sebagai user berlabel di fitur; (b) 34 dari 749 event red-team LANL identik (duplikat murni) dan runtuh saat dipetakan ke user-hari, jadi **181** adalah jumlah positif yang benar; (c) sebaran label LANL yang menggerombol itulah alasan validasi temporal harus diperlebar (lihat L4).

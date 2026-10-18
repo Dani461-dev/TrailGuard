@@ -85,4 +85,3 @@ def score_frame(bundle: dict, feat: pd.DataFrame, w_sup: float = None) -> pd.Dat
     risk, sup, an = risk_from_array(bundle, feat[bundle["feature_cols"]].values, w_sup)
     out = feat.copy()
     out["p_supervised"], out["p_anomaly"], out["risk"] = sup, an, risk
-    return out

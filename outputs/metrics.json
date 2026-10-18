@@ -1,4 +1,3 @@
-{
   "description": "hanya model supervised (alpha=1.0 dipilih di validasi; Isolation Forest tidak menambah)",
   "alert_budget_per_day": 5,
   "n_alerts": 879,
@@ -177,4 +176,3 @@
       "val_pr_auc": 0.812
     }
   }
-}

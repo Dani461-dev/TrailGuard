@@ -1,0 +1,64 @@
+---
+import { stages } from "@/data/trailguard";
+import Icon from "./Icon.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+const kindStyle: Record<string, { ring: string; tag: string; icon: string }> = {
+  stage: { ring: "border-border bg-light", tag: "bg-white/5 text-text", icon: "route" },
+  gate: { ring: "border-primary/50 bg-primary/10", tag: "bg-primary/20 text-primary", icon: "target" },
+  checkpoint: { ring: "border-secondary/50 bg-secondary/10", tag: "bg-secondary/20 text-secondary", icon: "check" },
+};
+---
+
+<section id="tahapan" class="section scroll-mt-24">
+  <div class="container">
+    <SectionHeading
+      badge="Stages & Gates"
+      title='From <strong>ready</strong> to feature freeze'
+      subtitle="Each stage starts after the previous Gate/Checkpoint is reached. Work order follows stages & Gates — not the clock."
+    />
+
+    <div class="relative mx-auto max-w-3xl">
+      <div
+        class="absolute left-6 top-6 bottom-6 w-px bg-gradient-to-b from-primary/40 via-border to-secondary/40"
+        aria-hidden="true"
+      >
+      </div>
+
+      <ol class="space-y-6">
+        {
+          stages.map((s) => {
+            const k = kindStyle[s.kind];
+            return (
+              <li class="relative flex gap-6">
+                <span
+                  class={`relative z-10 flex size-12 shrink-0 items-center justify-center rounded-2xl border ${k.ring}`}
+                >
+                  <Icon name={k.icon} class="size-5 text-white" />
+                </span>
+                <div class="flex-1 rounded-2xl border border-border bg-light/60 p-6">
+                  <div class="mb-3 flex flex-wrap items-center gap-3">
+                    <span class={`rounded-md px-2.5 py-1 text-xs font-bold uppercase tracking-wide ${k.tag}`}>
+                      {s.tag}
+                    </span>
+                    <h3 class="font-secondary text-h6 font-bold text-white">
+                      {s.title}
+                    </h3>
+                  </div>
+                  <ul class="space-y-2 text-sm text-text">
+                    {s.points.map((p) => (
+                      <li class="flex gap-3">
+                        <span class="mt-2 size-1.5 shrink-0 rounded-full bg-primary/70" />
+                        <span>{p}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            );
+          })
+        }
+      </ol>
+    </div>
+  </div>
+</section>

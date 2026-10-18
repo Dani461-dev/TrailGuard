@@ -1,0 +1,38 @@
+---
+import Head from "@/layouts/Head.astro";
+import Footer from "@/partials/Footer.astro";
+import Header from "@/partials/Header.astro";
+import "@/styles/main.css";
+
+export interface Props {
+  title?: string;
+  meta_title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  canonical?: string;
+}
+
+const { title, meta_title, description, image, noindex, canonical } =
+  Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <Head
+    title={title}
+    meta_title={meta_title}
+    description={description}
+    image={image}
+    noindex={noindex}
+    canonical={canonical}
+  />
+  <body>
+    {/* <TwSizeIndicator /> */}
+    <Header />
+    <main id="main-content" class="overflow-x-hidden md:overflow-x-auto">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

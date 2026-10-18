@@ -1,0 +1,21 @@
+[
+  "logon_count",
+  "off_hours_logon",
+  "unique_pcs",
+  "usb_connect_count",
+  "file_activity_count",
+  "external_email_count",
+  "http_visit_count",
+  "logon_zscore_7d",
+  "logon_spike_ratio",
+  "off_hours_zscore_7d",
+  "off_hours_spike_ratio",
+  "usb_zscore_7d",
+  "usb_spike_ratio",
+  "file_zscore_7d",
+  "file_spike_ratio",
+  "email_zscore_7d",
+  "email_spike_ratio",
+  "http_zscore_7d",
+  "http_spike_ratio"
+]

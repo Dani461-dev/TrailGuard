@@ -1,0 +1,41 @@
+---
+import Base from "@/layouts/Base.astro";
+import Hero from "@/layouts/components/trailguard/Hero.astro";
+import Goal from "@/layouts/components/trailguard/Goal.astro";
+import Pipeline from "@/layouts/components/trailguard/Pipeline.astro";
+import Principles from "@/layouts/components/trailguard/Principles.astro";
+import Scope from "@/layouts/components/trailguard/Scope.astro";
+import Model from "@/layouts/components/trailguard/Model.astro";
+import Explain from "@/layouts/components/trailguard/Explain.astro";
+import Policy from "@/layouts/components/trailguard/Policy.astro";
+import DashboardPreview from "@/layouts/components/trailguard/DashboardPreview.astro";
+import Datasets from "@/layouts/components/trailguard/Datasets.astro";
+import Deploy from "@/layouts/components/trailguard/Deploy.astro";
+import Evidence from "@/layouts/components/trailguard/Evidence.astro";
+import Team from "@/layouts/components/trailguard/Team.astro";
+import Stages from "@/layouts/components/trailguard/Stages.astro";
+import Risks from "@/layouts/components/trailguard/Risks.astro";
+import Dod from "@/layouts/components/trailguard/Dod.astro";
+import Closing from "@/layouts/components/trailguard/Closing.astro";
+import { meta } from "@/data/trailguard";
+---
+
+<Base title={meta.name} description={meta.tagline}>
+  <Hero />
+  <Goal />
+  <Pipeline />
+  <Principles />
+  <Scope />
+  <Model />
+  <Explain />
+  <Policy />
+  <DashboardPreview />
+  <Datasets />
+  <Deploy />
+  <Evidence />
+  <Team />
+  <Stages />
+  <Risks />
+  <Dod />
+  <Closing />
+</Base>

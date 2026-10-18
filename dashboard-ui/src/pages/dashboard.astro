@@ -1,0 +1,13 @@
+---
+import AppLayout from "@/layouts/AppLayout.astro";
+import Overview from "@/layouts/dashboard/Overview";
+---
+
+<AppLayout
+  title="Overview · TrailGuard Dashboard"
+  description="TrailGuard insider-threat dashboard overview: evaluation metrics, risk trends, tier distribution, and the human approval queue."
+  pageTitle="Overview"
+  pageSubtitle="Metrics, risk trends, and the approval queue"
+>
+  <Overview client:load />
+</AppLayout>

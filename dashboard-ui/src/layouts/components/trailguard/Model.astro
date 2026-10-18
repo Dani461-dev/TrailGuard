@@ -1,0 +1,72 @@
+---
+import { featureSets, modelFacts } from "@/data/trailguard";
+import Icon from "./Icon.astro";
+import SectionHeading from "./SectionHeading.astro";
+---
+
+<section id="fitur" class="section scroll-mt-24">
+  <div class="container">
+    <SectionHeading
+      badge="Features & model"
+      title='Daily behavior, <strong>two datasets</strong>'
+      subtitle="One row = one user × one day. Every feature has a deviation version (z-score) against that user's own 14-day baseline — never seeing today, so leakage-free."
+    />
+
+    <div class="grid gap-6 lg:grid-cols-2">
+      {
+        featureSets.map((fs) => (
+          <article class="flex flex-col rounded-3xl border border-border bg-light p-8">
+            <div class="mb-1 flex items-center gap-3">
+              <span class="flex size-10 items-center justify-center rounded-xl bg-primary/12 text-primary">
+                <Icon name={fs.dataset.startsWith("CERT") ? "database" : "network"} class="size-5" />
+              </span>
+              <h3 class="font-secondary text-h6 font-bold text-white">
+                {fs.dataset}
+              </h3>
+            </div>
+            <code class="mb-5 block font-mono text-xs text-primary/80">
+              {fs.file}
+            </code>
+            <div class="mb-5 flex flex-wrap gap-2">
+              {fs.base.map((c) => (
+                <span class="rounded-md border border-border bg-body px-2 py-1 font-mono text-[0.68rem] text-text-light">
+                  {c}
+                </span>
+              ))}
+            </div>
+            <p class="mt-auto text-sm text-text">
+              <span class="font-semibold text-white">{fs.zCount} deviation features</span>{" "}
+              auto-derived · {fs.note}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        modelFacts.map((f) => (
+          <div class="flex gap-4 rounded-2xl border border-border bg-light/60 p-6">
+            <span class="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/5 text-primary">
+              <Icon name={f.icon} class="size-5" />
+            </span>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wide text-text-dark">
+                {f.label}
+              </p>
+              <p class="mt-1 text-sm leading-6 text-text-light">{f.value}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="mt-6 rounded-2xl border border-secondary/30 bg-secondary/5 px-6 py-4 text-sm text-text">
+      <strong class="text-secondary">Results (placeholder).</strong> The
+      precision/recall @ budget & median days-to-detection table will be filled
+      by the team once{" "}
+      <code class="mx-1 font-mono text-secondary">outputs/metrics.json</code> exists —
+      toy numbers must not be reported.
+    </p>
+  </div>
+</section>

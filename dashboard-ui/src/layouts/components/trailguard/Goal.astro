@@ -1,0 +1,43 @@
+---
+import { meta, stack } from "@/data/trailguard";
+import Icon from "./Icon.astro";
+---
+
+<section class="section-sm">
+  <div class="container">
+    <div
+      class="relative overflow-hidden rounded-3xl border border-border bg-light px-8 py-10 lg:px-14 lg:py-12"
+    >
+      <div class="grid items-center gap-8 lg:grid-cols-3">
+        <div class="lg:col-span-2">
+          <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+            The goal in one sentence
+          </p>
+          <p class="font-secondary text-h5 font-bold leading-snug text-white lg:text-h4">
+            {meta.goal}
+          </p>
+        </div>
+        <div class="rounded-2xl border border-border bg-body/50 p-6">
+          <p class="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-text-dark">
+            <Icon name="code" class="size-4 text-primary" /> Tech stack (core)
+          </p>
+          <div class="flex flex-wrap gap-2">
+            {
+              stack.map((s) => (
+                <span class="rounded-md border border-border bg-light px-2.5 py-1 font-mono text-xs text-text-light">
+                  {s}
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute -right-20 -top-20 size-64 rounded-full blur-3xl"
+        style="background: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 40%, transparent) 0%, transparent 70%);"
+        aria-hidden="true"
+      >
+      </div>
+    </div>
+  </div>
+</section>

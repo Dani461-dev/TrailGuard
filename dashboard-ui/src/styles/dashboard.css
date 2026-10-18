@@ -1,0 +1,103 @@
+/* TrailGuard dashboard — animasi & detail halus (dipakai AppShell.astro) */
+
+@keyframes dr-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes dr-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dr-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes dr-drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes dr-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dr-in {
+  animation: dr-fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.dr-fade {
+  animation: dr-fade-in 0.3s ease both;
+}
+
+.dr-toast {
+  animation: dr-toast-in 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.dr-drawer {
+  animation: dr-drawer-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.dr-spin {
+  animation: dr-spin 0.7s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dr-in,
+  .dr-fade,
+  .dr-toast,
+  .dr-drawer {
+    animation: none;
+  }
+}
+
+/* Scrollbar halus untuk panel dashboard */
+.dr-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.dr-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.dr-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dr-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+}
+
+.dr-scroll::-webkit-scrollbar-thumb:hover {
+  background: #34353f;
+  background-clip: padding-box;
+}

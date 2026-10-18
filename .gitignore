@@ -1,15 +1,3 @@
-.venv/
-__pycache__/
-*.pyc
-.env
-data/raw/*
-data/interim/*
-data/processed/*
-!data/*/.gitkeep
-models/*.joblib
-outputs/*.jsonl
-*.log
-.ipynb_checkpoints/
 
 # Data mentah besar (jangan pernah di-commit) — lihat docs/01_TEAM_ROLES.md §7
 auth.txt/
